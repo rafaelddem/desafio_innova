@@ -1,0 +1,38 @@
+services:
+  innova_hero_database:
+    image: postgres:16
+    container_name: innova_hero_database
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: innova_hero
+    volumes:
+      - "./postgres-data:/var/lib/postgresql/data"
+    ports:
+      - 5432:5432
+    networks: 
+      - innova_hero
+
+  innova_hero_backend:
+    build: 
+      context: ./dockerfiles/app
+      dockerfile: Dockerfile
+    image: innova_hero_backend:1.0.0
+    container_name: innova_hero_backend
+    restart: always
+    volumes:
+      - laravel_app:/var/www/html
+    ports: 
+      - 9000:9000
+    networks: 
+      - innova_hero
+    depends_on:
+      - innova_hero_database
+
+volumes:
+  laravel_app:
+
+networks:
+  innova_hero:
+    driver: bridge
