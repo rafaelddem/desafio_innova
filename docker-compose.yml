@@ -24,14 +24,31 @@ services:
     volumes:
       - laravel_app:/var/www/html
     ports: 
-      - 9000:9000
+      - 8000:8000
     networks: 
       - innova_hero
     depends_on:
       - innova_hero_database
 
+  innova_hero_frontend:
+    build:
+      context: ./dockerfiles/front
+      dockerfile: Dockerfile
+    image: innova_hero_frontend:1.0.0
+    container_name: innova_hero_frontend
+    volumes:
+      - laravel_front:/var/www/html
+      - /var/www/html/node_modules
+    ports:
+      - "8080:8080"
+    networks:
+      - innova_hero
+    stdin_open: true
+    tty: true
+
 volumes:
   laravel_app:
+  laravel_front:
 
 networks:
   innova_hero:

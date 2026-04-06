@@ -19,10 +19,8 @@ RUN git clone -b main https://github.com/rafaelddem/desafio_innova_api.git /var/
 WORKDIR /var/www/html
 
 RUN composer update --no-dev --optimize-autoloader
-# RUN composer install --no-dev --optimize-autoloader
 
 RUN cp .env.example .env && php artisan key:generate && php artisan jwt:secret
 
-# CMD ["php", "artisan", "serve"]
-# CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
-# CMD ["php-fpm"]
+EXPOSE 8000
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
